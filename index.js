@@ -1,7 +1,7 @@
 import { getSSLHubRpcClient } from "@farcaster/hub-nodejs";
 
 // Public user FID — change this to any valid FID
-const fid = 2;
+const fid = 254246;
 
 const client = getSSLHubRpcClient("foss.farchiver.xyz");
 
