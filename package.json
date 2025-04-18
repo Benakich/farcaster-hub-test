@@ -7,6 +7,6 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@farcaster/hub-nodejs": "^1.16.0"
+    "@farcaster/hub-nodejs": "^1.15.1"
   }
 }
