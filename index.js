@@ -1,24 +1,27 @@
 import { getSSLHubRpcClient } from "@farcaster/hub-nodejs";
 
-// Try a smaller FID or different hub
-const fid = 5650; // or 22656, etc.
-const client = getSSLHubRpcClient("nemes.farcaster.xyz"); // switch hub here
+const hub = getSSLHubRpcClient("nemes.farcaster.xyz");
 
-const main = async () => {
+// You can change this to match another channel URL
+const parentUrl = "https://warpcast.com/~/channel/nouns-draws";
+
+const fetchCastsFromChannel = async () => {
   try {
-    const result = await client.getAllCastMessagesByFid({ fid });
+    const result = await hub.getCastsByParent({ parentUrl });
 
-    if (result && result.messages?.length > 0) {
-      console.log(`✅ Found ${result.messages.length} casts for FID ${fid}`);
-      result.messages.forEach((msg, i) => {
-        console.log(`[${i + 1}] ${msg.data?.castAddBody?.text}`);
+    if (result.isOk() && result.value.messages.length > 0) {
+      const casts = result.value.messages.slice(0, 10); // limit to 10
+      console.log(`✅ Fetched ${casts.length} casts:\n`);
+      casts.forEach((msg, i) => {
+        const text = msg.data?.castAddBody?.text || "(no text)";
+        console.log(`[${i + 1}] ${text}`);
       });
     } else {
-      console.log(`❌ No casts found for FID ${fid} on this hub`);
+      console.log("No casts found or result not OK.");
     }
-  } catch (error) {
-    console.error("Fetch error:", error);
+  } catch (err) {
+    console.error("❌ Error fetching channel casts:", err);
   }
 };
 
-main();
+fetchCastsFromChannel();
