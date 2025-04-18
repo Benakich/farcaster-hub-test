@@ -1,25 +1,24 @@
 import { getSSLHubRpcClient } from "@farcaster/hub-nodejs";
 
-const fid = 254246; // You can change this to any valid FID
+const fid = 2; // Try with FID 2 (Farcaster team), or any user with a known cast history
 
 const client = getSSLHubRpcClient("foss.farchiver.xyz");
 
 const main = async () => {
   try {
-    const response = await client.getCastsByFid({ fid });
+    const result = await client.getAllCastMessagesByFid({ fid });
 
-    console.log("Raw Response:", response);
-
-    if (response && response.messages && response.messages.length > 0) {
-      console.log(`Fetched ${response.messages.length} cast(s):`);
-      response.messages.forEach((cast, i) => {
-        console.log(`\n[${i + 1}] ${JSON.stringify(cast, null, 2)}`);
+    if (result && result.messages && result.messages.length > 0) {
+      console.log(`✅ Found ${result.messages.length} casts for FID ${fid}:`);
+      result.messages.forEach((msg, i) => {
+        const text = msg.data?.castAddBody?.text;
+        console.log(`\n[${i + 1}] ${text}`);
       });
     } else {
-      console.log("No messages found for this FID.");
+      console.log(`No casts found for FID ${fid}.`);
     }
   } catch (error) {
-    console.error("Error fetching casts:", error);
+    console.error("❌ Fetch error:", error);
   }
 };
 
