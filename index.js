@@ -1,6 +1,6 @@
 import { getSSLHubRpcClient } from "@farcaster/hub-nodejs";
 
-const fid = 2; // Try with FID 2 (Farcaster team), or any user with a known cast history
+const fid = 266490; // Try with FID 2 (Farcaster team), or any user with a known cast history
 
 const client = getSSLHubRpcClient("foss.farchiver.xyz");
 
